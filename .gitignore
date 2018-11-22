@@ -110,7 +110,7 @@ model/
 tmp/
 
 # data
-data
+data/
 
 # checkpoint
 checkpoints/
@@ -125,4 +125,7 @@ logs/
 ref/
 
 # notebooks
-notebooks
+notebooks/
+
+# pycharm
+.idea/
