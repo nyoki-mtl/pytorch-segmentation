@@ -1,5 +1,5 @@
 # PytorchSegmentation
-This repository implements general network for semantic segmentation.  
+This repository implements general network for semantic segmentation.
 You can run various networks like UNet, PSPNet, ASPP, etc., just by writing the config file.
 
 ```
@@ -46,7 +46,7 @@ python train.py ../config/test.yaml
     - resnet101
     - resnet152
     - resnext101_32x4d
-    - resnext101_64x4d  
+    - resnext101_64x4d
     - se_resnet50
     - se_resnet101
     - se_resnet152
@@ -93,7 +93,7 @@ python train.py ../config/test.yaml
     - oc_aspp
 
 ## Dataset
-- Cityspaces
+- Cityscapes
 - Pascal Voc
     - augmentation
         - http://home.bharathh.info/pubs/codes/SBD/download.html
