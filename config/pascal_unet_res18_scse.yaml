@@ -5,9 +5,9 @@ Net:
   pretrained: True
 
 Train:
-  dataset: 'cityscapes'
+  dataset: 'pascal'
   max_epoch: 20
-  batch_size: 2
+  batch_size: 4
   resume: False
   start_epoch: 0
 
