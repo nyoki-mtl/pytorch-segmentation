@@ -1,0 +1,22 @@
+Net:
+  enc_type: 'resnet18'
+  dec_type: 'unet_scse'
+  num_filters: 8
+  pretrained: True
+
+Train:
+  dataset: 'cityscapes'
+  max_epoch: 20
+  batch_size: 2
+  resume: False
+  start_epoch: 0
+
+Loss:
+  weight:
+  size_average: True
+  batch_average: True
+
+Optimizer:
+  mode: 'adam'
+  base_lr: 0.001
+  t_max: 10
