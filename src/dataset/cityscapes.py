@@ -15,14 +15,14 @@ class_map = dict(zip(valid_classes, range(n_classes)))
 
 
 class CityscapesDataset(Dataset):
-    def __init__(self, base_dir='../data/cityscapes', split="train", ignore_index=255, debug=False):
+    def __init__(self, base_dir='../data/cityscapes', split='train', ignore_index=255, debug=False):
         self.debug = debug
         self.base_dir = Path(base_dir)
         self.ignore_index = ignore_index
-        self.split = split
+        self.split = 'val' if split == 'valid' else split
 
-        self.img_paths = sorted(self.base_dir.glob(f'leftImg8bit/{split}/*/*leftImg8bit.png'))
-        self.lbl_paths = sorted(self.base_dir.glob(f'gtFine/{split}/*/*gtFine_labelIds.png'))
+        self.img_paths = sorted(self.base_dir.glob(f'leftImg8bit/{self.split}/*/*leftImg8bit.png'))
+        self.lbl_paths = sorted(self.base_dir.glob(f'gtFine/{self.split}/*/*gtFine_labelIds.png'))
         assert len(self.img_paths) == len(self.lbl_paths)
 
         self.resizer = albu.Resize(height=512, width=1024)
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
 
-    dataset = CityscapesDataset('../../data/cityscapes', debug=True)
+    dataset = CityscapesDataset('../../data/cityscapes', split='train', debug=True)
     dataloader = DataLoader(dataset, batch_size=8, shuffle=True)
     print(len(dataset))
 

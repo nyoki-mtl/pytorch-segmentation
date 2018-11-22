@@ -9,7 +9,7 @@ class CrossEntropy2d(nn.Module):
         self.weight = weight
         self.size_average = size_average
         self.batch_average = batch_average
-        self.loss_fn = nn.CrossEntropyLoss(weight=weight, ignore_index=ignore_index, reduce='sum')
+        self.loss_fn = nn.CrossEntropyLoss(weight=weight, ignore_index=ignore_index, reduction='sum')
 
     def forward(self, preds, labels):
         n, c, h, w = preds.size()
