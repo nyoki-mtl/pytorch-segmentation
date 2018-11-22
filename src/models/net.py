@@ -11,11 +11,12 @@ from .inplace_abn import InPlaceABN as ActivatedBatchNorm
 
 class SegmentationNet(nn.Module, SegmentatorTTA):
     def __init__(self, output_channels=21, enc_type='resnet50', dec_type='oc_base',
-                 num_filters=16, pretrained=True):
+                 num_filters=16, pretrained=True, debug=False):
         super().__init__()
         self.output_channels = output_channels
         self.enc_type = enc_type
         self.dec_type = dec_type
+        self.debug = debug
 
         if dec_type.startswith('unet'):
             assert enc_type in ['resnet18', 'resnet34', 'resnet50', 'resnet101', 'resnet152',
@@ -92,6 +93,12 @@ class SegmentationNet(nn.Module, SegmentatorTTA):
         e3 = self.encoder3(e2)
         e4 = self.encoder4(e3)
         e5 = self.encoder5(e4)
+        if self.debug:
+            print('e1', e1.size())
+            print('e2', e2.size())
+            print('e3', e3.size())
+            print('e4', e4.size())
+            print('e5', e5.size())
 
         if self.dec_type.startswith('unet'):
             c = self.center(self.pool(e5))
@@ -112,9 +119,22 @@ class SegmentationNet(nn.Module, SegmentatorTTA):
             d = torch.cat((d1, u2, u3, u4, u5), 1)
             output = self.output(d)
 
+            if self.debug:
+                print('c', c.size())
+                print('d5', d5.size())
+                print('d4', d4.size())
+                print('d3', d3.size())
+                print('d2', d2.size())
+                print('d1', d1.size())
+                print('d', d.size())
+                print('output', output.size())
+
         elif self.dec_type.startswith(('oc', 'psp', 'aspp')):
             d = self.decoder(e5)
             output = self.output(d)
             output = F.interpolate(output, img_size, mode='bilinear', align_corners=False)
+            if self.debug:
+                print('context', d.size())
+                print('output', output.size())
 
         return output
