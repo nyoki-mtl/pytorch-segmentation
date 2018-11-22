@@ -6,35 +6,98 @@ You can run various networks like UNet, PSPNet, ASPP, etc., just by writing the 
 python train.py ../config/test.yaml
 ```
 
+## Directory tree
+```
+.
+├── README.md
+├── config
+├── data
+│   ├── cityscapes
+│   │   ├── gtFine
+│   │   └── leftImg8bit
+│   └── pascal_voc_2012
+│        └── VOCdevkit
+│            └── VOC2012
+│                ├── JPEGImages
+│                ├── SegmentationClass
+│                └── SegmentationClassAug
+├── logs
+├── model
+└── src
+    ├── dataset
+    ├── logger
+    ├── losses
+    │   ├── binary
+    │   └── multi
+    ├── models
+    │   ├── inplace_abn
+    ├── start_train.sh
+    ├── stop_train.sh
+    ├── train.py
+    └── utils
+```
+
 ## Networks
 ### UNet
-You can choice encoder type in  
-[resnet18, resnet34, resnet50, resnet101, resnet152, resnext101_32x4d, resnext101_64x4d,  
-se_resnet50, se_resnet101', se_resnet152, se_resnext50_32x4d, se_resnext101_32x4d, senet154]  
-and decoder type in  
-[unet_scse, unet_seibn, unet_oc].
+- encoder type
+    - resnet18
+    - resnet34
+    - resnet50
+    - resnet101
+    - resnet152
+    - resnext101_32x4d
+    - resnext101_64x4d  
+    - se_resnet50
+    - se_resnet101
+    - se_resnet152
+    - se_resnext50_32x4d
+    - se_resnext101_32x4d
+    - senet154
+- decoder type
+    - unet_scse
+    - unet_seibn
+    - unet_oc
 
 ### PSPNet
-You can choice encoder type in  
-[resnet18, resnet34, resnet50, resnet101, resnet152, senet154]  
-and decoder type in  
-[psp].
+- encoder type
+    - resnet18
+    - resnet34
+    - resnet50
+    - resnet101
+    - resnet152
+    - senet154
+- decoder type
+    - psp
 
 ### ASPP
-You can choice encoder type in  
-[resnet18, resnet34, resnet50, resnet101, resnet152, senet154]  
-and decoder type in  
-[aspp].
+- encoder type
+    - resnet18
+    - resnet34
+    - resnet50
+    - resnet101
+    - resnet152
+    - senet154
+- decoder type
+    - aspp
 
 ### OCNet
-You can choice encoder type in  
-[resnet18, resnet34, resnet50, resnet101, resnet152, senet154]  
-and decoder type in  
-[oc_base, oc_aspp].
+- encoder type
+    - resnet18
+    - resnet34
+    - resnet50
+    - resnet101
+    - resnet152
+    - senet154
+- decoder type
+    - oc_base
+    - oc_aspp
 
 ## Dataset
 - Cityspaces
 - Pascal Voc
+    - augmentation
+        - http://home.bharathh.info/pubs/codes/SBD/download.html
+        - https://github.com/TheLegendAli/DeepLab-Context/issues/10
 
 ## Reference
 
