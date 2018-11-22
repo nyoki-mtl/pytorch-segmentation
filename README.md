@@ -9,7 +9,6 @@ python train.py ../config/test.yaml
 ## Directory tree
 ```
 .
-├── README.md
 ├── config
 ├── data
 │   ├── cityscapes
@@ -30,7 +29,7 @@ python train.py ../config/test.yaml
     │   ├── binary
     │   └── multi
     ├── models
-    │   ├── inplace_abn
+    │   └── inplace_abn
     ├── start_train.sh
     ├── stop_train.sh
     ├── train.py
