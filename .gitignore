@@ -126,3 +126,7 @@ ref/
 
 # notebooks
 notebooks
+
+# vscode history
+src/dataset/.history
+.history
