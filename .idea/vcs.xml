@@ -3,6 +3,8 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ref/OCNet" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ref/models" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ref/pytorch-deeplab-xception" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ref/pytorch-semseg" vcs="Git" />
   </component>
 </project>
