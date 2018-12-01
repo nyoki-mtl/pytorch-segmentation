@@ -18,10 +18,13 @@ class ApolloscapeDataset(Dataset):
     def __init__(self,
                  base_dir='../../data/apolloscape',
                  road_record_list=[{'road':'road02_seg','record':[22, 23, 24, 25, 26]}, {'road':'road03_seg', 'record':[7, 8, 9, 10, 11, 12]}],
-                 ignore_index=255, debug=False):
+                 split='train',
+                 ignore_index=255,
+                 debug=False):
         self.debug = debug
         self.base_dir = Path(base_dir)
         self.ignore_index = ignore_index
+        self.split = split
         self.img_paths = []
         self.lbl_paths = []
 
@@ -83,6 +86,10 @@ class ApolloscapeDataset(Dataset):
 
         resized = self.resizer(image=img, mask=lbl)
         img, lbl = resized['image'], resized['mask']
+
+        if self.split != 'valid':
+            augmented = self.augmenter(image=img, mask=lbl)
+            img, lbl = augmented['image'], augmented['mask']
 
         if self.debug:
             print(np.unique(lbl))
