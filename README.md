@@ -14,7 +14,7 @@ $ cd tf_model
 $ wget http://download.tensorflow.org/models/deeplabv3_cityscapes_train_2018_02_06.tar.gz
 $ tar -xvf deeplabv3_cityscapes_train_2018_02_06.tar.gz
 $ cd ../src
-$ cd convert.py ../tf_model/deeplabv3_cityscapes_train/model.ckpt 19 ../model/cityscapes_deeplab_v3_plus.yaml
+$ cd convert.py ../tf_model/deeplabv3_cityscapes_train/model.ckpt 19 ../model/cityscapes_deeplab_v3_plus/model.pth
 ```
 
 Then you can test the performance of trained network.
@@ -96,6 +96,12 @@ python train.py ../config/pascal_unet_res18_scse.yaml
     │   └── inplace_abn
     └── utils
 ```
+
+## Environments
+- OS: Ubuntu18.04
+- python: 3.6.4
+- pytorch: 0.4.1
+
 
 ## Reference
 
