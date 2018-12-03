@@ -110,7 +110,7 @@ model/
 tmp/
 
 # data
-data/
+data
 
 # checkpoint
 checkpoints/
@@ -125,7 +125,10 @@ logs/
 ref/
 
 # notebooks
-notebooks/
+notebooks
+
+# tensorflow model
+tf_model/
 
 # pycharm
 .idea/

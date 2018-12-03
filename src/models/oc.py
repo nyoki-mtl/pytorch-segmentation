@@ -6,8 +6,7 @@ https://github.com/PkuRainBow/OCNet
 import torch
 from torch import nn
 from torch.nn import functional as F
-# from .inplace_abn import ABN as ActivatedBatchNorm
-from .inplace_abn import InPlaceABN as ActivatedBatchNorm
+from .common import ActivatedBatchNorm
 
 
 class SelfAttentionBlock2D(nn.Module):
@@ -69,35 +68,6 @@ class SelfAttentionBlock2D(nn.Module):
         return context
 
 
-class BaseOC(nn.Module):
-    """
-    Implementation of the BaseOC module
-    Parameters:
-        in_features / out_features: the channels of the input / output feature maps.
-        dropout: we choose 0.05 as the default value.
-        size: you can apply multiple sizes. Here we only use one size.
-    Return:
-        features fused with Object context information.
-    """
-
-    def __init__(self, in_channels, out_channels, key_channels, value_channels, dropout=0.05, sizes=(1,)):
-        super().__init__()
-        self.stages = nn.ModuleList(
-            [SelfAttentionBlock2D(in_channels, key_channels, value_channels, out_channels, size) for size in sizes])
-        self.conv_bn_dropout = nn.Sequential(
-            nn.Conv2d(2 * in_channels, out_channels, kernel_size=1, padding=0),
-            ActivatedBatchNorm(out_channels),
-            nn.Dropout2d(dropout))
-
-    def forward(self, feats):
-        priors = [stage(feats) for stage in self.stages]
-        context = priors[0]
-        for i in range(1, len(priors)):
-            context += priors[i]
-        output = self.conv_bn_dropout(torch.cat([context, feats], 1))
-        return output
-
-
 class BaseOC_Context(nn.Module):
     """
     Output only the context features.
@@ -110,13 +80,14 @@ class BaseOC_Context(nn.Module):
         features after "concat" or "add"
     """
 
-    def __init__(self, in_channels, out_channels, key_channels, value_channels, sizes=(1,)):
+    def __init__(self, in_channels, out_channels, key_channels, value_channels, dropout=0.05, sizes=(1,)):
         super().__init__()
         self.stages = nn.ModuleList(
             [SelfAttentionBlock2D(in_channels, key_channels, value_channels, out_channels, size) for size in sizes])
         self.conv_bn_dropout = nn.Sequential(
             nn.Conv2d(in_channels, out_channels, kernel_size=1, padding=0),
-            ActivatedBatchNorm(out_channels)
+            ActivatedBatchNorm(out_channels),
+            nn.Dropout2d(dropout)
         )
 
     def forward(self, feats):
@@ -128,30 +99,53 @@ class BaseOC_Context(nn.Module):
         return output
 
 
-class ASP_OC(nn.Module):
-    def __init__(self, features, out_features=512, dilations=(12, 24, 36)):
+class BaseOC(nn.Module):
+    def __init__(self, in_channels=2048, out_channels=256, dropout=0.05):
         super().__init__()
+        self.block = nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
+            ActivatedBatchNorm(out_channels),
+            BaseOC_Context(in_channels=out_channels, out_channels=out_channels,
+                           key_channels=out_channels // 2, value_channels=out_channels // 2, dropout=dropout))
+
+    def forward(self, x):
+        return self.block(x)
+
+
+class ASPOC(nn.Module):
+    def __init__(self, in_channels=2048, out_channels=256, output_stride=8):
+        super().__init__()
+        if output_stride == 16:
+            dilations = [6, 12, 18]
+        elif output_stride == 8:
+            dilations = [12, 24, 36]
+        else:
+            raise NotImplementedError
+
         self.context = nn.Sequential(
-            nn.Conv2d(features, out_features, kernel_size=3, padding=1, dilation=1, bias=True),
-            ActivatedBatchNorm(out_features),
-            BaseOC_Context(in_channels=out_features, out_channels=out_features,
-                           key_channels=out_features // 2, value_channels=out_features,
-                           sizes=([2])))
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, dilation=1, bias=True),
+            ActivatedBatchNorm(out_channels),
+            BaseOC_Context(in_channels=out_channels, out_channels=out_channels,
+                           key_channels=out_channels // 2, value_channels=out_channels,
+                           dropout=0, sizes=([2])))
         self.conv2 = nn.Sequential(
-            nn.Conv2d(features, out_features, kernel_size=1, padding=0, dilation=1, bias=False),
-            ActivatedBatchNorm(out_features))
+            nn.Conv2d(in_channels, out_channels, kernel_size=1, padding=0, dilation=1, bias=False),
+            ActivatedBatchNorm(out_channels))
         self.conv3 = nn.Sequential(
-            nn.Conv2d(features, out_features, kernel_size=3, padding=dilations[0], dilation=dilations[0], bias=False),
-            ActivatedBatchNorm(out_features))
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=dilations[0], dilation=dilations[0],
+                      bias=False),
+            ActivatedBatchNorm(out_channels))
         self.conv4 = nn.Sequential(
-            nn.Conv2d(features, out_features, kernel_size=3, padding=dilations[1], dilation=dilations[1], bias=False),
-            ActivatedBatchNorm(out_features))
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=dilations[1], dilation=dilations[1],
+                      bias=False),
+            ActivatedBatchNorm(out_channels))
         self.conv5 = nn.Sequential(
-            nn.Conv2d(features, out_features, kernel_size=3, padding=dilations[2], dilation=dilations[2], bias=False),
-            ActivatedBatchNorm(out_features))
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=dilations[2], dilation=dilations[2],
+                      bias=False),
+            ActivatedBatchNorm(out_channels))
         self.conv_bn_dropout = nn.Sequential(
-            nn.Conv2d(out_features * 5, out_features, kernel_size=1, padding=0, dilation=1, bias=False),
-            ActivatedBatchNorm(out_features),
+            nn.Conv2d(out_channels * 5, out_channels, kernel_size=1, padding=0, dilation=1, bias=False),
+            ActivatedBatchNorm(out_channels),
             nn.Dropout2d(0.1)
         )
 

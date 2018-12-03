@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
-# from .inplace_abn import ABN as ActivatedBatchNorm
-from .inplace_abn import InPlaceABN as ActivatedBatchNorm
+from .common import ActivatedBatchNorm
 
 
 class IBN(nn.Module):

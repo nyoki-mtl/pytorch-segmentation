@@ -1,10 +1,74 @@
 # PytorchSegmentation
-This repository implements general network for semantic segmentation.
-You can run various networks like UNet, PSPNet, ASPP, etc., just by writing the config file.
+This repository implements general network for semantic segmentation.  
+You can train various networks like DeepLabV3+, PSPNet, UNet, etc., just by writing the config file.
+
+![DeepLabV3+](src/eval.png)
+
+## Pretrained model
+You can run pretrained DeepLabv3+ converted from [official tensorflow model](https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/model_zoo.md).  
+Currently I checked that xception65_cityscapes_trainfine can be converted.
 
 ```
-python train.py ../config/test.yaml
+$ mkdir tf_model
+$ cd tf_model
+$ wget http://download.tensorflow.org/models/deeplabv3_cityscapes_train_2018_02_06.tar.gz
+$ tar -xvf deeplabv3_cityscapes_train_2018_02_06.tar.gz
+$ cd ../src
+$ cd convert.py ../tf_model/deeplabv3_cityscapes_train/model.ckpt 19 ../model/cityscapes_deeplab_v3_plus.yaml
 ```
+
+Then you can test the performance of trained network.
+
+```
+$ python eval.py
+```
+
+
+## How to train
+In order to train model, you have only to setup config file.  
+For example, write config file as below and save it as config/pascal_unet_res18_scse.yaml.
+
+```yaml
+Net:
+  enc_type: 'resnet18'
+  dec_type: 'unet_scse'
+  num_filters: 8
+  pretrained: True
+
+Data:
+  dataset: 'pascal'
+  preprocess: 'imagenet'
+  target_size: (256, 256)
+
+Train:
+  max_epoch: 20
+  batch_size: 2
+  resume: False
+  start_epoch: 0
+
+Loss:
+  weight:
+  size_average: True
+  batch_average: True
+
+Optimizer:
+  mode: 'adam'
+  base_lr: 0.001
+  t_max: 10
+```
+
+Then you can train this model by:
+
+```
+python train.py ../config/pascal_unet_res18_scse.yaml
+```
+
+## Dataset
+- Cityscapes
+- Pascal Voc
+    - augmentation
+        - http://home.bharathh.info/pubs/codes/SBD/download.html
+        - https://github.com/TheLegendAli/DeepLab-Context/issues/10
 
 ## Directory tree
 ```
@@ -30,73 +94,8 @@ python train.py ../config/test.yaml
     │   └── multi
     ├── models
     │   └── inplace_abn
-    ├── start_train.sh
-    ├── stop_train.sh
-    ├── train.py
     └── utils
 ```
-
-## Networks
-### UNet
-- encoder type
-    - resnet18
-    - resnet34
-    - resnet50
-    - resnet101
-    - resnet152
-    - resnext101_32x4d
-    - resnext101_64x4d
-    - se_resnet50
-    - se_resnet101
-    - se_resnet152
-    - se_resnext50_32x4d
-    - se_resnext101_32x4d
-    - senet154
-- decoder type
-    - unet_scse
-    - unet_seibn
-    - unet_oc
-
-### PSPNet
-- encoder type
-    - resnet18
-    - resnet34
-    - resnet50
-    - resnet101
-    - resnet152
-    - senet154
-- decoder type
-    - psp
-
-### ASPP
-- encoder type
-    - resnet18
-    - resnet34
-    - resnet50
-    - resnet101
-    - resnet152
-    - senet154
-- decoder type
-    - aspp
-
-### OCNet
-- encoder type
-    - resnet18
-    - resnet34
-    - resnet50
-    - resnet101
-    - resnet152
-    - senet154
-- decoder type
-    - oc_base
-    - oc_aspp
-
-## Dataset
-- Cityscapes
-- Pascal Voc
-    - augmentation
-        - http://home.bharathh.info/pubs/codes/SBD/download.html
-        - https://github.com/TheLegendAli/DeepLab-Context/issues/10
 
 ## Reference
 
