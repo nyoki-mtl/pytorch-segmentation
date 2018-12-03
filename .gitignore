@@ -127,6 +127,8 @@ ref/
 # notebooks
 notebooks
 
-# vscode history
-src/dataset/.history
-.history
+# tensorflow model
+tf_model/
+
+# pycharm
+.idea/

@@ -1,14 +1,17 @@
 Net:
-  enc_type: 'resnet18'
-  dec_type: 'unet_scse'
-  num_filters: 8
-  pretrained: True
+  enc_type: 'xception65'
+  dec_type: 'aspp'
+  output_stride: 8
+
+Data:
+  dataset: 'cityscapes'
+  preprocess: 'deeplab'
+  target_size:
 
 Train:
-  dataset: 'cityscapes'
   max_epoch: 20
   batch_size: 2
-  resume: False
+  resume: True
   start_epoch: 0
 
 Loss:

@@ -1,11 +1,10 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
+from .common import ActivatedBatchNorm, SeparableConv2d
 from .ibn import ImprovedIBNaDecoderBlock
 from .scse import SELayer, SCSEBlock
-from .oc import BaseOC, ASP_OC
-from .psp import PSP, ASPP
-# from .inplace_abn import ABN as ActivatedBatchNorm
-from .inplace_abn import InPlaceABN as ActivatedBatchNorm
+from .oc import BaseOC
 
 
 class DecoderUnetSCSE(nn.Module):
@@ -42,9 +41,8 @@ class DecoderUnetOC(nn.Module):
         self.block = nn.Sequential(
             nn.Conv2d(in_channels, middle_channels, kernel_size=3, padding=1),
             ActivatedBatchNorm(middle_channels),
-            BaseOC(in_channels=middle_channels, out_channels=middle_channels,
-                   key_channels=middle_channels // 2,
-                   value_channels=middle_channels // 2,
+            BaseOC(in_channels=middle_channels,
+                   out_channels=middle_channels,
                    dropout=0.2),
             nn.ConvTranspose2d(middle_channels, out_channels, kernel_size=4, stride=2, padding=1),
         )
@@ -54,17 +52,24 @@ class DecoderUnetOC(nn.Module):
         return self.block(x)
 
 
-class DecoderOCBase(nn.Module):
-    def __init__(self, in_channels, out_channels):
+class DecoderSPP(nn.Module):
+    def __init__(self):
         super().__init__()
-        self.block = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
-            ActivatedBatchNorm(out_channels),
-            BaseOC(in_channels=out_channels, out_channels=out_channels,
-                   key_channels=out_channels // 2, value_channels=out_channels // 2))
+        self.conv = nn.Conv2d(256, 48, 1, bias=False)
+        self.bn = nn.BatchNorm2d(48)
+        self.relu = nn.ReLU(inplace=True)
+        self.sep1 = SeparableConv2d(304, 256, relu_first=False)
+        self.sep2 = SeparableConv2d(256, 256, relu_first=False)
 
-    def forward(self, x):
-        return self.block(x)
+    def forward(self, x, low_level_feat):
+        x = F.interpolate(x, size=low_level_feat.shape[2:], mode='bilinear', align_corners=True)
+        low_level_feat = self.conv(low_level_feat)
+        low_level_feat = self.bn(low_level_feat)
+        low_level_feat = self.relu(low_level_feat)
+        x = torch.cat((x, low_level_feat), dim=1)
+        x = self.sep1(x)
+        x = self.sep2(x)
+        return x
 
 
 def create_decoder(dec_type):
@@ -74,13 +79,5 @@ def create_decoder(dec_type):
         return DecoderUnetSEIBN
     elif dec_type == 'unet_oc':
         return DecoderUnetOC
-    elif dec_type == 'oc_base':
-        return DecoderOCBase
-    elif dec_type == 'oc_asp':
-        return ASP_OC
-    elif dec_type == 'psp':
-        return PSP
-    elif dec_type == 'aspp':
-        return ASPP
     else:
         raise NotImplementedError

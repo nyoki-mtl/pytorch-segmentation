@@ -7,9 +7,10 @@ from pathlib import Path
 from tqdm import tqdm
 
 import torch
+import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
-from models.net import SegmentationNet
+from models.net import EncoderDecoderNet, SPPNet
 from logger.log import debug_logger
 from logger.plot import history_ploter
 from utils.optimizer import create_optimizer
@@ -18,15 +19,9 @@ from losses.multi.ce_loss import CrossEntropy2d
 
 
 def train():
-    train_dataset = Dataset(split='train')
-    valid_dataset = Dataset(split='valid')
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4, pin_memory=True)
-    valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
-
-    model = SegmentationNet(**net_config).to(device)
-    loss_fn = CrossEntropy2d(**loss_config).to(device)
-    optimizer, scheduler = create_optimizer(model=model, **opt_config)
-
+    best_metrics = 0
+    loss_history = []
+    iou_history = []
     if resume:
         model_path = output_dir.joinpath(f'model.pth')
         logger.info(f'Resume from {model_path}')
@@ -37,15 +32,12 @@ def train():
         for _ in range(start_epoch):
             scheduler.step()
 
-        with open(log_dir.joinpath('history.pkl'), 'rb') as f:
-            history_dict = pickle.load(f)
-            best_metrics = history_dict['best_metrics']
-            loss_history = history_dict['seg_loss']
-            iou_history = history_dict['iou']
-    else:
-        best_metrics = 0
-        loss_history = []
-        iou_history = []
+        if log_dir.joinpath('history.pkl').exists():
+            with open(log_dir.joinpath('history.pkl'), 'rb') as f:
+                history_dict = pickle.load(f)
+                best_metrics = history_dict['best_metrics']
+                loss_history = history_dict['seg_loss']
+                iou_history = history_dict['iou']
 
     for i_epoch in range(start_epoch, max_epoch):
         logger.info(f'Epoch: {i_epoch}')
@@ -60,6 +52,7 @@ def train():
                 optimizer.zero_grad()
 
                 preds = model(images)
+                preds = F.interpolate(preds, size=labels.shape[2:], mode='bilinear', align_corners=True)
                 loss = loss_fn(preds, labels)
 
                 preds_np = preds.detach().cpu().numpy()
@@ -67,7 +60,7 @@ def train():
                 iou = compute_iou_batch(preds_np, labels_np)
 
                 _tqdm.set_postfix(OrderedDict(seg_loss=f'{loss.item():.5f}',
-                                              iou0=f'{iou:.3f}'))
+                                              iou=f'{iou:.3f}'))
                 train_losses.append(loss.item())
                 train_ious.append(iou)
 
@@ -91,6 +84,7 @@ def train():
                     images, labels = images.to(device), labels.to(device)
 
                     preds = model(images)
+                    preds = F.interpolate(preds, size=labels.shape[2:], mode='bilinear', align_corners=True)
                     loss = loss_fn(preds, labels)
 
                     preds_np = preds.detach().cpu().numpy()
@@ -121,7 +115,7 @@ def train():
             torch.save(model.state_dict(), output_dir.joinpath('model.pth'))
 
         history_dict = {'loss': loss_history,
-                        'iou0': iou_history,
+                        'iou': iou_history,
                         'best_metrics': best_metrics}
         with open(log_dir.joinpath('history.pkl'), 'wb') as f:
             pickle.dump(history_dict, f)
@@ -134,22 +128,19 @@ if __name__ == '__main__':
     config_path = Path(args.config_path)
     config = yaml.load(open(config_path))
     net_config = config['Net']
+    data_config = config['Data']
     train_config = config['Train']
     loss_config = config['Loss']
     opt_config = config['Optimizer']
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-    dataset = train_config['dataset']
+    dataset = data_config['dataset']
     if dataset == 'pascal':
         from dataset.pascal_voc import PascalVocDataset as Dataset
         net_config['output_channels'] = 21
     elif dataset == 'cityscapes':
         from dataset.cityscapes import CityscapesDataset as Dataset
         net_config['output_channels'] = 19
-        loss_config['weight'] = torch.FloatTensor([0.8373, 0.918, 0.866, 1.0345, 1.0166,
-                                                   0.9969, 0.9754, 1.0489, 0.8786, 1.0023,
-                                                   0.9539, 0.9843, 1.1116, 0.9037, 1.0865,
-                                                   1.0955, 1.0865, 1.1529, 1.0507]).to(device)
     else:
         raise NotImplementedError
     max_epoch = train_config['max_epoch']
@@ -166,5 +157,18 @@ if __name__ == '__main__':
     logger = debug_logger(log_dir)
     logger.info(f'Device: {device}')
     logger.info(f'Max Epoch: {max_epoch}')
+
+    del data_config['dataset']
+    train_dataset = Dataset(split='train', **data_config)
+    valid_dataset = Dataset(split='valid', **data_config)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4, pin_memory=True)
+    valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
+
+    if 'unet' in net_config['dec_type']:
+        model = EncoderDecoderNet(**net_config).to(device)
+    else:
+        model = SPPNet(**net_config).to(device)
+    loss_fn = CrossEntropy2d(**loss_config).to(device)
+    optimizer, scheduler = create_optimizer(model=model, **opt_config)
 
     train()
