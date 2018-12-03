@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1d9e4d2c-a45f-44fb-a9c9-32a2db5ed629" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/charmer.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/aspp.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/convert.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/deeplab.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/xception.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/tmp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/resnet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/charmer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/charmer.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ref/OCNet/network/resnet101_asp_oc.py" beforeDir="false" afterPath="$PROJECT_DIR$/ref/OCNet/network/resnet101_asp_oc.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ref/OCNet/network/resnet101_base_oc.py" beforeDir="false" afterPath="$PROJECT_DIR$/ref/OCNet/network/resnet101_base_oc.py" afterDir="false" />
@@ -17,7 +12,17 @@
       <change beforePath="$PROJECT_DIR$/ref/models/research/deeplab/deeplab_demo.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/ref/models/research/deeplab/deeplab_demo.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/backbone/xception.py" beforeDir="false" afterPath="$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/backbone/xception.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dataset/cityscapes.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataset/cityscapes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/aspp.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/convert.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/convert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/decoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/deeplab.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/encoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/encoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ibn.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ibn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/oc.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/oc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/psp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/xception.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/xception.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,12 +44,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="cpp" value="1" />
+          <entry key="h" value="1" />
           <entry key="ipynb" value="5" />
           <entry key="jpg" value="1" />
           <entry key="json" value="3" />
-          <entry key="md" value="2" />
+          <entry key="md" value="4" />
           <entry key="png" value="12" />
-          <entry key="py" value="75" />
+          <entry key="py" value="110" />
           <entry key="sh" value="1" />
           <entry key="txt" value="2" />
           <entry key="yaml" value="5" />
@@ -52,12 +59,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="C++" value="2" />
           <entry key="IPNB" value="5" />
           <entry key="Image" value="13" />
           <entry key="JSON" value="3" />
-          <entry key="Markdown" value="2" />
+          <entry key="Markdown" value="4" />
           <entry key="PLAIN_TEXT" value="3" />
-          <entry key="Python" value="75" />
+          <entry key="Python" value="110" />
           <entry key="YAML" value="5" />
         </counts>
       </usages-collector>
@@ -65,14 +73,14 @@
         <counts>
           <entry key="Python Console" value="57" />
           <entry key="md" value="926" />
-          <entry key="py" value="7292" />
+          <entry key="py" value="8478" />
           <entry key="yaml" value="33" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Markdown" value="926" />
-          <entry key="Python" value="7349" />
+          <entry key="Python" value="8535" />
           <entry key="YAML" value="33" />
         </counts>
       </usages-collector>
@@ -83,23 +91,24 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/models/xception.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="144" column="81" selection-start-line="144" selection-start-column="81" selection-end-line="144" selection-end-column="81" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#1770#5018#0" />
-                <element signature="e#1798#4045#0" />
-                <element signature="e#4081#5018#0" />
-              </folding>
+            <state relative-caret-position="702">
+              <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/models/deeplab.py">
+        <entry file="file://$PROJECT_DIR$/src/tmp/tmp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+            <state relative-caret-position="-3888" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/inplace_abn/bn.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1296">
+              <caret line="108" column="82" selection-start-line="108" selection-start-column="72" selection-end-line="108" selection-end-column="82" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -108,76 +117,56 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dataset/cityscapes.py">
+        <entry file="file://$PROJECT_DIR$/src/models/inplace_abn/residual.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="35" column="64" selection-start-line="35" selection-start-column="64" selection-end-line="35" selection-end-column="64" />
+            <state relative-caret-position="-792">
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/core/utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="58" column="68" selection-start-line="58" selection-start-column="68" selection-end-line="58" selection-end-column="68" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/eval.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
-              <folding>
-                <element signature="e#779#790#0" expanded="true" />
+                <element signature="e#0#35#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/utils/input_generator.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="133" column="76" selection-start-line="133" selection-start-column="50" selection-end-line="133" selection-end-column="76" />
-              <folding>
-                <element signature="e#745#768#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/input_preprocess.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1548" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/models/common.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="30" column="103" lean-forward="true" selection-start-line="30" selection-start-column="103" selection-end-line="30" selection-end-column="103" />
+            <state relative-caret-position="360">
+              <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/encoder.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="738">
+              <caret line="94" column="26" selection-start-line="94" selection-start-column="26" selection-end-line="94" selection-end-column="26" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#0#35#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/models/aspp.py">
+        <entry file="file://$PROJECT_DIR$/src/models/net.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="234">
-              <caret line="40" column="27" selection-start-line="40" selection-start-column="27" selection-end-line="40" selection-end-column="27" />
+              <caret line="13" column="49" selection-start-line="13" selection-start-column="49" selection-end-line="13" selection-end-column="49" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/oc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1398">
+              <caret line="118" column="35" selection-start-line="118" selection-start-column="35" selection-end-line="118" selection-end-column="35" />
+              <folding>
+                <element signature="e#93#105#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -187,23 +176,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>split</find>
-      <find>red</find>
-      <find>SeparableConv2d</find>
-      <find>start_with_relu</find>
-      <find>predict_label</find>
-      <find>D</find>
-      <find>multi_scale_logits</find>
-      <find>fixed_padding</find>
-      <find>Block</find>
-      <find>buil</find>
-      <find>meta_architecture</find>
-      <find>meta</find>
-      <find>decoder</find>
-      <find>split_separable_conv2d</find>
-      <find>branch_logits</find>
-      <find>dropout</find>
-      <find>ASPP_SCOPE</find>
       <find>depth_multiplier</find>
       <find>padding</find>
       <find>rate</find>
@@ -213,26 +185,51 @@
       <find>}/separab</find>
       <find>align_corners</find>
       <find>nn.Conv2d</find>
+      <find>-1</find>
+      <find>_preprocess_zero_mean_unit_range</find>
+      <find>target_height</find>
+      <find>preprocess_image_and_label</find>
+      <find>crop_size</find>
+      <find>crop_height</find>
       <find>pad</find>
+      <find>pad_to_bounding_box</find>
+      <find>1025</find>
+      <find>feature_extractor</find>
+      <find>InPlaceABN</find>
+      <find>backbone</find>
+      <find>model.aspp</find>
+      <find>dropout</find>
+      <find>input_channels</find>
+      <find>output_channels</find>
+      <find>BatchNorm</find>
+      <find>pool</find>
+      <find>root_block_fn_for_beta_variant</find>
+      <find>dilation=2</find>
+      <find>activation</find>
     </findStrings>
     <replaceStrings>
       <replace>XceptionBlock</replace>
       <replace>sep_block</replace>
       <replace>xception_65</replace>
+      <replace>encoder</replace>
+      <replace>model.spp</replace>
+      <replace>in_channels</replace>
+      <replace>out_channels</replace>
+      <replace>dilation=middle_block_dilation</replace>
+      <replace>nn.BatchNorm2d</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/ref/models/research/deeplab</dir>
+      <dir>$PROJECT_DIR$/src</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="ROOT_SYNC" value="SYNC" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/ref/models" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/models/oc.py" />
-        <option value="$PROJECT_DIR$/src/models/net.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/config/cityspaces_unet_res18_scse.yaml" />
         <option value="$PROJECT_DIR$/src/dataset/appolo_scape.py" />
@@ -245,10 +242,17 @@
         <option value="$PROJECT_DIR$/src/models/inplace_abn/aspp.py" />
         <option value="$PROJECT_DIR$/src/tmp.py" />
         <option value="$PROJECT_DIR$/src/dataset/cityscapes.py" />
-        <option value="$PROJECT_DIR$/src/models/convert.py" />
-        <option value="$PROJECT_DIR$/src/models/xception.py" />
         <option value="$PROJECT_DIR$/src/models/aspp.py" />
         <option value="$PROJECT_DIR$/src/models/deeplab.py" />
+        <option value="$PROJECT_DIR$/src/models/ibn.py" />
+        <option value="$PROJECT_DIR$/src/models/encoder.py" />
+        <option value="$PROJECT_DIR$/src/models/decoder.py" />
+        <option value="$PROJECT_DIR$/src/models/xception.py" />
+        <option value="$PROJECT_DIR$/src/models/oc.py" />
+        <option value="$PROJECT_DIR$/src/models/spp.py" />
+        <option value="$PROJECT_DIR$/src/models/convert.py" />
+        <option value="$PROJECT_DIR$/src/models/resnet.py" />
+        <option value="$PROJECT_DIR$/src/models/net.py" />
         <option value="$PROJECT_DIR$/src/models/common.py" />
       </list>
     </option>
@@ -300,52 +304,6 @@
             <path>
               <item name="pytorch-segmentation" type="b2602c69:ProjectViewProjectNode" />
               <item name="pytorch-segmentation" type="462c0819:PsiDirectoryNode" />
-              <item name="ref" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="research" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pytorch-segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pytorch-segmentation" type="462c0819:PsiDirectoryNode" />
-              <item name="ref" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="research" type="462c0819:PsiDirectoryNode" />
-              <item name="deeplab" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pytorch-segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pytorch-segmentation" type="462c0819:PsiDirectoryNode" />
-              <item name="ref" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="research" type="462c0819:PsiDirectoryNode" />
-              <item name="deeplab" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pytorch-segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pytorch-segmentation" type="462c0819:PsiDirectoryNode" />
-              <item name="ref" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="research" type="462c0819:PsiDirectoryNode" />
-              <item name="deeplab" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pytorch-segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pytorch-segmentation" type="462c0819:PsiDirectoryNode" />
-              <item name="ref" type="462c0819:PsiDirectoryNode" />
-              <item name="pytorch-deeplab-xception" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pytorch-segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pytorch-segmentation" type="462c0819:PsiDirectoryNode" />
-              <item name="ref" type="462c0819:PsiDirectoryNode" />
-              <item name="pytorch-deeplab-xception" type="462c0819:PsiDirectoryNode" />
-              <item name="modeling" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pytorch-segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pytorch-segmentation" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -359,6 +317,12 @@
               <item name="pytorch-segmentation" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pytorch-segmentation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pytorch-segmentation" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="tmp" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -374,12 +338,13 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/models" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/models" />
       <recent name="$PROJECT_DIR$/notebooks" />
       <recent name="$PROJECT_DIR$/config" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/models" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -411,7 +376,7 @@
     <frame x="1920" y="-2" width="1920" height="1082" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26040554" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25987193" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -434,6 +399,30 @@
       <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="right" x="0" y="0" width="430" height="882" id="Documentation" order="5" side_tool="true" weight="0.32977587" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25987193" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32983193" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" x="0" y="0" width="430" height="882" id="Documentation" order="5" side_tool="true" weight="0.32977587" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -442,122 +431,10 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/dataset/appolo_scape.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="29" column="71" lean-forward="true" selection-start-line="29" selection-start-column="71" selection-end-line="29" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="180">
-            <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/predict.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="35" column="70" selection-start-line="35" selection-start-column="70" selection-end-line="35" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/test/debug.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/test/iou.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/test.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/losses/multi/ce_loss.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/pascal_unet_res18_scse.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/pascal_unet_res18_scse/debug.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/pascal_unet_res18_scse/iou.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/pascal_unet_res18_scse/loss.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1908">
-          <caret line="130" column="38" lean-forward="true" selection-start-line="130" selection-start-column="38" selection-end-line="130" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="25" column="32" selection-start-line="25" selection-start-column="32" selection-end-line="25" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/decoder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
-          <caret line="54" column="52" selection-start-line="6" selection-end-line="54" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/backbone/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="2" selection-start-line="2" selection-end-line="12" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/deeplab.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="27" selection-end-line="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/decoder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/backbone/xception.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-936">
-          <caret line="65" column="23" selection-start-line="65" selection-start-column="23" selection-end-line="65" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-304">
-          <caret line="169" column="9" selection-start-line="169" selection-start-column="5" selection-end-line="169" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -567,12 +444,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/inplace_abn/deeplab.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/encoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="53" column="68" selection-start-line="53" selection-start-column="68" selection-end-line="53" selection-end-column="68" />
+        <state>
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -586,6 +462,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-682">
           <caret line="586" column="9" selection-start-line="586" selection-start-column="6" selection-end-line="586" selection-end-column="9" />
+          <folding>
+            <element signature="e#2205#2228#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -611,18 +490,13 @@
     <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/core/dense_prediction_cell_branch5_top1_cityscapes.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/g3doc/cityscapes.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="-1080" />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dataset/pascal_voc.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -630,25 +504,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3273">
           <caret line="270" column="49" selection-start-line="270" selection-start-column="33" selection-end-line="270" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/aspp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-216">
-          <caret line="24" column="29" lean-forward="true" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+          <folding>
+            <element signature="e#2162#2583#2" />
+            <element signature="e#2636#3143#1" />
+            <element signature="e#12180#15182#0" />
+            <element signature="e#21377#23790#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/core/preprocess_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="343" lean-forward="true" selection-start-line="343" selection-end-line="343" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tmp.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -661,13 +527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
           <caret line="142" column="10" selection-start-line="142" selection-start-column="10" selection-end-line="142" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/convert.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="110" column="89" selection-start-line="110" selection-start-column="89" selection-end-line="110" selection-end-column="89" />
         </state>
       </provider>
     </entry>
@@ -685,35 +544,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/xception.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="144" column="81" selection-start-line="144" selection-start-column="81" selection-end-line="144" selection-end-column="81" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#1770#5018#0" />
-            <element signature="e#1798#4045#0" />
-            <element signature="e#4081#5018#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/models/aspp.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="40" column="27" selection-start-line="40" selection-start-column="27" selection-end-line="40" selection-end-column="27" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/common.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="30" column="103" lean-forward="true" selection-start-line="30" selection-start-column="103" selection-end-line="30" selection-end-column="103" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -731,20 +567,13 @@
     <entry file="file://$PROJECT_DIR$/src/dataset/cityscapes.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dataset/cityscapes.py">
+    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="35" column="64" selection-start-line="35" selection-start-column="64" selection-end-line="35" selection-end-column="64" />
+        <state relative-caret-position="18">
+          <caret line="308" column="69" selection-start-line="308" selection-start-column="69" selection-end-line="308" selection-end-column="69" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#777#787#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/core/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="58" column="68" selection-start-line="58" selection-start-column="68" selection-end-line="58" selection-end-column="68" />
         </state>
       </provider>
     </entry>
@@ -758,18 +587,254 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/input_preprocess.py">
+    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/core/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1548" />
+        <state relative-caret-position="342">
+          <caret line="58" column="68" selection-start-line="58" selection-start-column="68" selection-end-line="58" selection-end-column="68" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/utils/input_generator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="133" column="76" selection-start-line="133" selection-start-column="50" selection-end-line="133" selection-end-column="76" />
+        <state relative-caret-position="900">
+          <caret line="147" column="12" selection-start-line="147" selection-start-column="12" selection-end-line="147" selection-end-column="12" />
           <folding>
             <element signature="e#745#768#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/core/preprocess_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="62" column="49" lean-forward="true" selection-start-line="62" selection-start-column="49" selection-end-line="62" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/g3doc/cityscapes.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SECOND">
+          <first_editor>
+            <caret line="103" column="21" selection-start-line="103" selection-start-column="21" selection-end-line="103" selection-end-column="21" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/core/feature_extractor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="194" column="20" selection-start-line="194" selection-start-column="11" selection-end-line="194" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/input_preprocess.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="114" column="23" selection-start-line="114" selection-start-column="6" selection-end-line="114" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dataset/cityscapes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/ibn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="38" selection-start-line="2" selection-start-column="38" selection-end-line="2" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/decoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1026">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/deeplab.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/backbone/xception.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="85" column="7" lean-forward="true" selection-start-line="85" selection-start-column="7" selection-end-line="85" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/decoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="26" column="25" lean-forward="true" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/aspp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="756">
+          <caret line="42" column="8" selection-start-line="42" selection-start-column="8" selection-end-line="45" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/pytorch-deeplab-xception/modeling/backbone/resnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="102" lean-forward="true" selection-start-line="102" selection-end-line="102" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/models/research/deeplab/core/resnet_v1_beta.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3858">
+          <caret line="371" column="68" selection-start-line="371" selection-start-column="38" selection-end-line="371" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/resnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1890">
+          <caret line="105" column="27" selection-start-line="105" selection-start-column="27" selection-end-line="105" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/spp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1008">
+          <caret line="79" column="35" selection-start-line="79" selection-start-column="35" selection-end-line="79" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/convert.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="37" column="4" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/oc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1398">
+          <caret line="118" column="35" selection-start-line="118" selection-start-column="35" selection-end-line="118" selection-end-column="35" />
+          <folding>
+            <element signature="e#93#105#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/xception.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="702">
+          <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="49" selection-start-line="13" selection-start-column="49" selection-end-line="13" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/encoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="738">
+          <caret line="94" column="26" selection-start-line="94" selection-start-column="26" selection-end-line="94" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/inplace_abn/residual.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-792">
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tmp/tmp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3888" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/inplace_abn/src/inplace_abn.h">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/inplace_abn/src/inplace_abn.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-515" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/inplace_abn/functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1686">
+          <caret line="120" column="25" selection-start-line="120" selection-start-column="15" selection-end-line="120" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/inplace_abn/bn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1296">
+          <caret line="108" column="82" selection-start-line="108" selection-start-column="72" selection-end-line="108" selection-end-column="82" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/common.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
         </state>
       </provider>
     </entry>

@@ -1,8 +1,13 @@
 <component name="ProjectDictionaryState">
   <dictionary name="charmer">
     <words>
+      <w>conv</w>
+      <w>downsample</w>
+      <w>inplanes</w>
       <w>pretrained</w>
+      <w>relu</w>
       <w>resnet</w>
+      <w>xception</w>
     </words>
   </dictionary>
 </component>

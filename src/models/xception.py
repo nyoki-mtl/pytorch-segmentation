@@ -47,8 +47,19 @@ class XceptionBlock(nn.Module):
 
 
 class Xception65(nn.Module):
-    def __init__(self):
+    def __init__(self, output_stride=8):
         super().__init__()
+
+        if output_stride == 16:
+            entry_block3_stride = 2
+            middle_block_dilation = 1
+            exit_block_dilations = (1, 2)
+        elif output_stride == 8:
+            entry_block3_stride = 1
+            middle_block_dilation = 2
+            exit_block_dilations = (2, 4)
+        else:
+            raise NotImplementedError
 
         # Entry flow
         self.conv1 = nn.Conv2d(3, 32, 3, stride=2, bias=False)
@@ -60,29 +71,30 @@ class Xception65(nn.Module):
 
         self.block1 = XceptionBlock([64, 128, 128, 128], stride=2)
         self.block2 = XceptionBlock([128, 256, 256, 256], stride=2, low_feat=True)
-        self.block3 = XceptionBlock([256, 728, 728, 728])
+        self.block3 = XceptionBlock([256, 728, 728, 728], stride=entry_block3_stride)
 
         # Middle flow (16 units)
-        self.block4 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block5 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block6 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block7 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block8 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block9 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block10 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block11 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block12 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block13 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block14 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block15 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block16 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block17 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block18 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
-        self.block19 = XceptionBlock([728, 728, 728, 728], dilation=2, skip_connection_type='sum')
+        self.block4 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block5 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block6 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block7 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block8 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block9 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block10 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block11 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block12 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block13 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block14 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block15 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block16 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block17 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block18 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
+        self.block19 = XceptionBlock([728, 728, 728, 728], dilation=middle_block_dilation, skip_connection_type='sum')
 
         # Exit flow
-        self.block20 = XceptionBlock([728, 728, 1024, 1024], dilation=2)
-        self.block21 = XceptionBlock([1024, 1536, 1536, 2048], dilation=4, skip_connection_type='none', relu_first=False)
+        self.block20 = XceptionBlock([728, 728, 1024, 1024], dilation=exit_block_dilations[0])
+        self.block21 = XceptionBlock([1024, 1536, 1536, 2048], dilation=exit_block_dilations[1],
+                                     skip_connection_type='none', relu_first=False)
 
     def forward(self, x):
         # Entry flow
