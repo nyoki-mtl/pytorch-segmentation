@@ -1,3 +1,4 @@
+from functools import partial
 import numpy as np
 from PIL import Image
 from pathlib import Path
@@ -5,16 +6,18 @@ import albumentations as albu
 
 import torch
 from torch.utils.data import DataLoader, Dataset
-from torchvision import transforms
 
+from utils.preprocess import minmax_normalize, meanstd_normalize, padding
 
 n_classes = 21
 
 
 class PascalVocDataset(Dataset):
-    def __init__(self, base_dir='../data/pascal_voc_2012/VOCdevkit/VOC2012', split="train_aug", debug=False):
+    def __init__(self, base_dir='../data/pascal_voc_2012/VOCdevkit/VOC2012', split="train_aug", target_size=None,
+                 preprocess='imagenet', ignore_index=255, debug=False):
         self.debug = debug
         self.base_dir = Path(base_dir)
+        self.ignore_index = ignore_index
         self.split = split
 
         valid_ids = self.base_dir.joinpath('ImageSets', 'Segmentation', 'val.txt')
@@ -31,10 +34,15 @@ class PascalVocDataset(Dataset):
         self.img_paths = [self.base_dir.joinpath('JPEGImages', f'{img_id.strip()}.jpg') for img_id in img_ids]
         self.lbl_paths = [self.base_dir.joinpath(lbl_dir, f'{img_id.strip()}.png') for img_id in img_ids]
 
-        self.resizer = albu.Resize(height=256, width=256)
+        if target_size is None:
+            self.resizer = None
+        else:
+            if isinstance(target_size, str):
+                target_size = eval(target_size)
+            self.resizer = albu.Resize(height=target_size[0], width=target_size[1])
         self.augmenter = albu.Compose([albu.HorizontalFlip(p=0.5),
                                        # albu.RandomRotate90(p=0.5),
-                                       albu.Rotate(limit=10, p=0.5),
+                                       # albu.Rotate(limit=10, p=0.5),
                                        # albu.CLAHE(p=0.2),
                                        # albu.RandomContrast(p=0.2),
                                        # albu.RandomBrightness(p=0.2),
@@ -42,10 +50,17 @@ class PascalVocDataset(Dataset):
                                        # albu.GaussNoise(p=0.2),
                                        # albu.Cutout(p=0.2)
                                        ])
-        self.img_transformer = transforms.Compose([transforms.ToTensor(),
-                                                   transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                                                        std=[0.229, 0.224, 0.225])])
-        self.lbl_transformer = torch.LongTensor
+        if preprocess == 'imagenet':
+            self.img_preprocess = [partial(minmax_normalize, min_value=0, max_value=1),
+                                   partial(meanstd_normalize, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])]
+            self.lbl_preprocess = []
+        elif preprocess == 'deeplab':
+            self.img_preprocess = [partial(minmax_normalize, min_value=-1, max_value=1),
+                                   partial(padding, pad=((1, 2), (1, 2), (0, 0)))]
+            self.lbl_preprocess = [partial(padding, pad=((0, 1), (0, 1)), constant_values=ignore_index)]
+        else:
+            self.img_preprocess = []
+            self.lbl_preprocess = []
 
     def __len__(self):
         return len(self.img_paths)
@@ -68,8 +83,9 @@ class PascalVocDataset(Dataset):
         if self.debug:
             print(np.unique(lbl))
         else:
-            img = self.img_transformer(img)
-            lbl = self.lbl_transformer(lbl)
+            img = img.transpose(2, 0, 1)
+            img = torch.FloatTensor(img)
+            lbl = torch.LongTensor(lbl)
 
         return img, lbl
 

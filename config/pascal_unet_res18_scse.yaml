@@ -4,16 +4,20 @@ Net:
   num_filters: 8
   pretrained: True
 
-Train:
+Data:
   dataset: 'pascal'
+  preprocess: 'imagenet'
+  target_size: (256, 256)
+
+Train:
   max_epoch: 20
-  batch_size: 4
+  batch_size: 2
   resume: False
   start_epoch: 0
 
 Loss:
   weight:
-  size_average: False
+  size_average: True
   batch_average: True
 
 Optimizer:

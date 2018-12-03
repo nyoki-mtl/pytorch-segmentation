@@ -1,9 +1,12 @@
+import argparse
+from pathlib import Path
+
 import tensorflow as tf
 import torch
-from .net import SPPNet
+from models.net import SPPNet
 
 
-def convert65(ckpt_path='../ref/deeplabv3_cityscapes_train/model.ckpt', num_classes=19):
+def convert_xception65(ckpt_path, num_classes):
     def conv_converter(pt_layer, tf_layer_name, depthwise=False, bias=False):
         if depthwise:
             pt_layer.weight.data = torch.Tensor(
@@ -91,3 +94,19 @@ def convert65(ckpt_path='../ref/deeplabv3_cityscapes_train/model.ckpt', num_clas
     conv_converter(model.logits, 'logits/semantic', bias=True)
 
     return model
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('ckpt_path')
+    parser.add_argument('num_classes', type=int)
+    parser.add_argument('output_path')
+    args = parser.parse_args()
+
+    ckpt_path = args.ckpt_path
+    num_classes = args.num_classes
+    output_path = Path(args.output_path)
+    output_path.parent.mkdir()
+
+    model = convert_xception65(ckpt_path, num_classes)
+    torch.save(model.state_dict(), output_path)

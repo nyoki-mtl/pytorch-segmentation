@@ -10,7 +10,7 @@ from .tta import SegmentatorTTA
 
 
 class EncoderDecoderNet(nn.Module, SegmentatorTTA):
-    def __init__(self, output_channels=21, enc_type='resnet50', dec_type='unet_scse',
+    def __init__(self, output_channels=19, enc_type='resnet50', dec_type='unet_scse',
                  num_filters=16, pretrained=False):
         super().__init__()
         self.output_channels = output_channels
@@ -80,7 +80,7 @@ class EncoderDecoderNet(nn.Module, SegmentatorTTA):
 
 
 class SPPNet(nn.Module, SegmentatorTTA):
-    def __init__(self, output_channels=21, enc_type='xception65', dec_type='aspp', output_stride=8):
+    def __init__(self, output_channels=19, enc_type='xception65', dec_type='aspp', output_stride=8):
         super().__init__()
         self.output_channels = output_channels
         self.enc_type = enc_type
