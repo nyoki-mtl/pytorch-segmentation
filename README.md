@@ -14,7 +14,8 @@ $ cd tf_model
 $ wget http://download.tensorflow.org/models/deeplabv3_cityscapes_train_2018_02_06.tar.gz
 $ tar -xvf deeplabv3_cityscapes_train_2018_02_06.tar.gz
 $ cd ../src
-$ cd convert.py ../tf_model/deeplabv3_cityscapes_train/model.ckpt 19 ../model/cityscapes_deeplab_v3_plus/model.pth
+$ mkdir ../model
+$ python convert.py ../tf_model/deeplabv3_cityscapes_train/model.ckpt 19 ../model/cityscapes_deeplab_v3_plus/model.pth
 ```
 
 Then you can test the performance of trained network.
@@ -60,7 +61,7 @@ Optimizer:
 Then you can train this model by:
 
 ```
-python train.py ../config/pascal_unet_res18_scse.yaml
+$ python train.py ../config/pascal_unet_res18_scse.yaml
 ```
 
 ## Dataset
