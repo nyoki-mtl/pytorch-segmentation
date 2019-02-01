@@ -3,23 +3,18 @@ Net:
   dec_type: 'unet_scse'
   num_filters: 8
   pretrained: True
-
 Data:
   dataset: 'pascal'
-  preprocess: 'imagenet'
-  target_size: (256, 256)
-
+  target_size: (512, 512)
 Train:
   max_epoch: 20
   batch_size: 2
+  fp16: True
   resume: False
-  start_epoch: 0
-
+  pretrained_path:
 Loss:
-  weight:
-  size_average: True
-  batch_average: True
-
+  loss_type: 'Lovasz'
+  ignore_index: 255
 Optimizer:
   mode: 'adam'
   base_lr: 0.001

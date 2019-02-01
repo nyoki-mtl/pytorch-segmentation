@@ -2,11 +2,11 @@ import torch.optim as optim
 from .scheduler import CosineWithRestarts
 
 
-def create_optimizer(model, mode='adam', base_lr=1e-3, t_max=10):
+def create_optimizer(params, mode='adam', base_lr=1e-3, t_max=10):
     if mode == 'adam':
-        optimizer = optim.Adam(model.parameters(), base_lr)
+        optimizer = optim.Adam(params, base_lr)
     elif mode == 'sgd':
-        optimizer = optim.SGD(model.parameters(), base_lr, momentum=0.9, weight_decay=1e-4)
+        optimizer = optim.SGD(params, base_lr, momentum=0.9, weight_decay=4e-5)
     else:
         raise NotImplementedError(mode)
 

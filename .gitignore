@@ -127,8 +127,6 @@ ref/
 # notebooks
 notebooks
 
-# tensorflow model
 tf_model/
 
-# pycharm
-.idea/
+\.idea/

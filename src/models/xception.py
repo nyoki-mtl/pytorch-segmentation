@@ -62,7 +62,7 @@ class Xception65(nn.Module):
             raise NotImplementedError
 
         # Entry flow
-        self.conv1 = nn.Conv2d(3, 32, 3, stride=2, bias=False)
+        self.conv1 = nn.Conv2d(3, 32, 3, stride=2, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(32)
         self.relu = nn.ReLU()
 

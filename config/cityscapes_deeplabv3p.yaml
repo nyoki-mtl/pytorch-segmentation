@@ -1,0 +1,21 @@
+Net:
+  enc_type: 'xception65'
+  dec_type: 'aspp'
+  output_stride: 8
+Data:
+  dataset: 'cityscapes'
+#  target_size: (728, 728)
+  target_size: (256, 256)
+Train:
+  max_epoch: 60
+  batch_size: 2
+  fp16: False
+  resume: False
+  pretrained_path:
+Loss:
+  loss_type: 'Lovasz'
+  ignore_index: 255
+Optimizer:
+  mode: 'sgd'
+  base_lr: 0.007
+  t_max: 30
