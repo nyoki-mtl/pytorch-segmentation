@@ -1,9 +1,5 @@
-import os
 from collections import OrderedDict
-import numpy as np
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 class _ActivatedBatchNorm(nn.Module):
@@ -56,9 +52,12 @@ class SeparableConv2d(nn.Module):
         return self.block(x)
 
 
-actbn_env = os.environ.get('INPLACE_ABN')
-if actbn_env:
-    from .inplace_abn import InPlaceABN
-    ActivatedBatchNorm = InPlaceABN
-else:
-    ActivatedBatchNorm = _ActivatedBatchNorm
+# import os
+# actbn_env = os.environ.get('INPLACE_ABN')
+# if actbn_env:
+#     from .inplace_abn import InPlaceABN
+#     ActivatedBatchNorm = InPlaceABN
+# else:
+#     ActivatedBatchNorm = _ActivatedBatchNorm
+
+ActivatedBatchNorm = _ActivatedBatchNorm

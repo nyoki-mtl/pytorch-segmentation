@@ -40,6 +40,7 @@ class ASPP(nn.Module):
             dilations = [12, 24, 36]
         else:
             raise NotImplementedError
+        # dilations = [6, 12, 18]
 
         self.aspp0 = nn.Sequential(OrderedDict([('conv', nn.Conv2d(in_channels, out_channels, 1, bias=False)),
                                                 ('bn', nn.BatchNorm2d(out_channels)),
@@ -76,13 +77,44 @@ class ASPP(nn.Module):
         return x
 
 
-class SPPDecoder(nn.Module):
-    def __init__(self, in_channels):
+class MobileASPP(nn.Module):
+    def __init__(self):
         super().__init__()
-        self.conv = nn.Conv2d(in_channels, 48, 1, bias=False)
-        self.bn = nn.BatchNorm2d(48)
+        self.aspp0 = nn.Sequential(OrderedDict([('conv', nn.Conv2d(320, 256, 1, bias=False)),
+                                                ('bn', nn.BatchNorm2d(256)),
+                                                ('relu', nn.ReLU(inplace=True))]))
+        self.image_pooling = nn.Sequential(OrderedDict([('gap', nn.AdaptiveAvgPool2d((1, 1))),
+                                                        ('conv', nn.Conv2d(320, 256, 1, bias=False)),
+                                                        ('bn', nn.BatchNorm2d(256)),
+                                                        ('relu', nn.ReLU(inplace=True))]))
+
+        self.conv = nn.Conv2d(512, 256, 1, bias=False)
+        self.bn = nn.BatchNorm2d(256)
         self.relu = nn.ReLU(inplace=True)
-        self.sep1 = SeparableConv2d(304, 256, relu_first=False)
+        self.dropout = nn.Dropout2d(p=0.1)
+
+    def forward(self, x):
+        pool = self.image_pooling(x)
+        pool = F.interpolate(pool, size=x.shape[2:], mode='bilinear', align_corners=True)
+
+        x = self.aspp0(x)
+        x = torch.cat((pool, x), dim=1)
+
+        x = self.conv(x)
+        x = self.bn(x)
+        x = self.relu(x)
+        x = self.dropout(x)
+
+        return x
+
+
+class SPPDecoder(nn.Module):
+    def __init__(self, in_channels, reduced_layer_num=48):
+        super().__init__()
+        self.conv = nn.Conv2d(in_channels, reduced_layer_num, 1, bias=False)
+        self.bn = nn.BatchNorm2d(reduced_layer_num)
+        self.relu = nn.ReLU(inplace=True)
+        self.sep1 = SeparableConv2d(256+reduced_layer_num, 256, relu_first=False)
         self.sep2 = SeparableConv2d(256, 256, relu_first=False)
 
     def forward(self, x, low_level_feat):
@@ -105,5 +137,22 @@ def create_spp(dec_type, in_channels=2048, middle_channels=256, output_stride=8)
         return BaseOC(in_channels, middle_channels), SPPDecoder(middle_channels)
     elif dec_type in 'oc_asp':
         return ASPOC(in_channels, middle_channels, output_stride), SPPDecoder(middle_channels)
+    else:
+        raise NotImplementedError
+
+
+def create_mspp(dec_type):
+    if dec_type == 'spp':
+        return SPP(320, 256)
+    elif dec_type == 'aspp':
+        return ASPP(320, 256, 8)
+    elif dec_type == 'oc_base':
+        return BaseOC(320, 256)
+    elif dec_type == 'oc_asp':
+        return ASPOC(320, 256, 8)
+    elif dec_type == 'maspp':
+        return MobileASPP()
+    elif dec_type == 'maspp_dec':
+        return MobileASPP(), SPPDecoder(24, reduced_layer_num=12)
     else:
         raise NotImplementedError

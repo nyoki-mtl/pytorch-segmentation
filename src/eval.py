@@ -21,7 +21,7 @@ del param
 
 batch_size = 1
 
-valid_dataset = CityscapesDataset(split='valid', preprocess='deeplab')
+valid_dataset = CityscapesDataset(split='valid', net_type='deeplab')
 valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=True)
 
 images_list = []
@@ -33,12 +33,11 @@ with torch.no_grad():
     for batched in valid_loader:
         images, labels = batched
         images_np = images.numpy().transpose(0, 2, 3, 1)
-        labels_np = labels.numpy()[:, :1024, :2048]
+        labels_np = labels.numpy()
 
         images, labels = images.to(device), labels.to(device)
-        preds = model(images)
-        preds = F.interpolate(preds, size=(1025, 2049), mode='bilinear', align_corners=True)
-        preds = preds.argmax(dim=1)[:, :1024, :2048]
+        preds = model.tta(images, net_type='deeplab')
+        preds = preds.argmax(dim=1)
         preds_np = preds.detach().cpu().numpy()
 
         images_list.append(images_np)
