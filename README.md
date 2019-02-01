@@ -5,9 +5,9 @@ You can train various networks like DeepLabV3+, PSPNet, UNet, etc., just by writ
 ![DeepLabV3+](src/eval.png)
 
 ## Pretrained model
-You can run pretrained DeepLabv3+ converted from [official tensorflow model](https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/model_zoo.md).  
-Currently I checked that xception65_cityscapes_trainfine can be converted.
+You can run pretrained model converted from [official tensorflow model](https://github.com/tensorflow/models/blob/master/research/deeplab/g3doc/model_zoo.md).  
 
+### DeepLabV3+(Xception65+ASPP)
 ```
 $ mkdir tf_model
 $ cd tf_model
@@ -15,7 +15,7 @@ $ wget http://download.tensorflow.org/models/deeplabv3_cityscapes_train_2018_02_
 $ tar -xvf deeplabv3_cityscapes_train_2018_02_06.tar.gz
 $ cd ../src
 $ mkdir ../model
-$ python convert.py ../tf_model/deeplabv3_cityscapes_train/model.ckpt 19 ../model/cityscapes_deeplab_v3_plus/model.pth
+$ python -m converter.convert_xception65 ../tf_model/deeplabv3_cityscapes_train/model.ckpt 19 ../model/cityscapes_deeplab_v3_plus/model.pth
 ```
 
 Then you can test the performance of trained network.
@@ -23,6 +23,18 @@ Then you can test the performance of trained network.
 ```
 $ python eval.py
 ```
+
+### MobilenetV2
+```
+$ mkdir tf_model
+$ cd tf_model
+$ wget http://download.tensorflow.org/models/deeplabv3_mnv2_cityscapes_train_2018_02_05.tar.gz
+$ tar -xvf deeplabv3_mnv2_cityscapes_train_2018_02_05.tar.gz
+$ cd ../src
+$ mkdir ../model
+$ python -m converter.mobilenetv2 ../tf_model/deeplabv3_mnv2_cityscapes_train/model.ckpt 19 ../model/cityscapes_mobilnetv2/model.pth
+```
+
 
 
 ## How to train
@@ -35,23 +47,18 @@ Net:
   dec_type: 'unet_scse'
   num_filters: 8
   pretrained: True
-
 Data:
   dataset: 'pascal'
-  preprocess: 'imagenet'
-  target_size: (256, 256)
-
+  target_size: (512, 512)
 Train:
   max_epoch: 20
   batch_size: 2
+  fp16: True
   resume: False
-  start_epoch: 0
-
+  pretrained_path:
 Loss:
-  weight:
-  size_average: True
-  batch_average: True
-
+  loss_type: 'Lovasz'
+  ignore_index: 255
 Optimizer:
   mode: 'adam'
   base_lr: 0.001

@@ -104,13 +104,13 @@ venv.bak/
 .mypy_cache/
 
 # model directory
-model/
+model/*
 
 # temporary directory
 tmp/
 
 # data
-data
+data/*
 
 # checkpoint
 checkpoints/
@@ -119,7 +119,7 @@ checkpoints/
 # output/
 
 # logs
-logs/
+logs/*
 
 # ref
 ref/
@@ -127,6 +127,6 @@ ref/
 # notebooks
 notebooks
 
-tf_model/
+tf_model/*
 
-\.idea/
+.idea/

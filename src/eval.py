@@ -65,7 +65,7 @@ axes[0, 1].set_title('prediction')
 axes[0, 2].set_title('ground truth')
 
 for ax, img, lbl, pred in zip(axes, images, labels, preds):
-    ax[0].imshow(minmax_normalize(img))
+    ax[0].imshow(minmax_normalize(img, norm_range=(0, 1), orig_range=(-1, 1)))
     ax[1].imshow(pred)
     ax[2].imshow(lbl)
     ax[0].set_xticks([])
