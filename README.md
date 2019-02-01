@@ -9,12 +9,10 @@ You can run pretrained model converted from [official tensorflow model](https://
 
 ### DeepLabV3+(Xception65+ASPP)
 ```
-$ mkdir tf_model
 $ cd tf_model
 $ wget http://download.tensorflow.org/models/deeplabv3_cityscapes_train_2018_02_06.tar.gz
 $ tar -xvf deeplabv3_cityscapes_train_2018_02_06.tar.gz
 $ cd ../src
-$ mkdir ../model
 $ python -m converter.convert_xception65 ../tf_model/deeplabv3_cityscapes_train/model.ckpt 19 ../model/cityscapes_deeplab_v3_plus/model.pth
 ```
 
@@ -26,12 +24,10 @@ $ python eval.py
 
 ### MobilenetV2
 ```
-$ mkdir tf_model
 $ cd tf_model
 $ wget http://download.tensorflow.org/models/deeplabv3_mnv2_cityscapes_train_2018_02_05.tar.gz
 $ tar -xvf deeplabv3_mnv2_cityscapes_train_2018_02_05.tar.gz
 $ cd ../src
-$ mkdir ../model
 $ python -m converter.mobilenetv2 ../tf_model/deeplabv3_mnv2_cityscapes_train/model.ckpt 19 ../model/cityscapes_mobilnetv2/model.pth
 ```
 
