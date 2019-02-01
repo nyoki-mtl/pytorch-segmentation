@@ -101,15 +101,18 @@ $ python train.py ../config/pascal_unet_res18_scse.yaml
     │   ├── binary
     │   └── multi
     ├── models
-    │   └── inplace_abn
     └── utils
 ```
 
 ## Environments
 - OS: Ubuntu18.04
-- python: 3.6.4
-- pytorch: 0.4.1
+- python: 3.7.0
+- pytorch: 1.0.0
+- pretrainedmodels: 0.7.4
+- albumentations: 0.1.8  
 
+if you want to train models in fp16
+- NVIDIA/apex: 0.1
 
 ## Reference
 
@@ -135,8 +138,3 @@ $ python train.py ../config/pascal_unet_res18_scse.yaml
 
 #### ASPP
 - https://arxiv.org/abs/1802.02611
-
-### Ohter
-#### inplaceABN
-- https://arxiv.org/abs/1712.02616
-- https://github.com/mapillary/inplace_abn

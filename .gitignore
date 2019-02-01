@@ -130,3 +130,5 @@ notebooks
 tf_model/*
 
 .idea/
+
+!.gitkeep
