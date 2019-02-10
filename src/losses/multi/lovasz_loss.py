@@ -1,10 +1,18 @@
+"""
+Lovasz-Softmax and Jaccard hinge loss in PyTorch
+Maxim Berman 2018 ESAT-PSI KU Leuven (MIT License)
+"""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
 
 
 def lovasz_grad(gt_sorted):
+    """
+    Computes gradient of the Lovasz extension w.r.t sorted errors
+    See Alg. 1 in paper
+    """
     p = len(gt_sorted)
     gts = gt_sorted.sum()
     intersection = gts - gt_sorted.float().cumsum(0)
@@ -18,19 +26,20 @@ def lovasz_grad(gt_sorted):
 def lovasz_softmax_flat(prb, lbl, ignore_index, only_present):
     """
     Multi-class Lovasz-Softmax loss
-      probas: [P, C] Variable, class probabilities at each prediction (between 0 and 1)
-      labels: [P] Tensor, ground truth labels (between 0 and C - 1)
+      prb: [P, C] Variable, class probabilities at each prediction (between 0 and 1)
+      lbl: [P] Tensor, ground truth labels (between 0 and C - 1)
+      ignore_index: void class labels
       only_present: average only on classes present in ground truth
     """
     C = prb.shape[0]
     prb = prb.permute(1, 2, 0).contiguous().view(-1, C)  # H * W, C
     lbl = lbl.view(-1)  # H * W
     if ignore_index is not None:
-        valid_index = lbl != ignore_index
-        if valid_index.sum() == 0:
+        mask = lbl != ignore_index
+        if mask.sum() == 0:
             return torch.mean(prb * 0)
-        prb = prb[valid_index]
-        lbl = lbl[valid_index]
+        prb = prb[mask]
+        lbl = lbl[mask]
 
     total_loss = 0
     cnt = 0
@@ -50,12 +59,11 @@ def lovasz_softmax_flat(prb, lbl, ignore_index, only_present):
 class LovaszSoftmax(nn.Module):
     """
     Multi-class Lovasz-Softmax loss
-      logits: [B, C, H, W] class logits at each prediction (between 0 and 1)
+      logits: [B, C, H, W] class logits at each prediction (between -\infty and \infty)
       labels: [B, H, W] Tensor, ground truth labels (between 0 and C - 1)
-      only_present: average only on classes present in ground truth
       ignore_index: void class labels
+      only_present: average only on classes present in ground truth
     """
-
     def __init__(self, ignore_index=None, only_present=True):
         super().__init__()
         self.ignore_index = ignore_index

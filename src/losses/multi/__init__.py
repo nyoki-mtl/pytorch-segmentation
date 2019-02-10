@@ -1,6 +1,4 @@
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 from .focal_loss import FocalLoss
 from .lovasz_loss import LovaszSoftmax
@@ -25,6 +23,5 @@ class MultiClassCriterion(nn.Module):
             raise NotImplementedError
 
     def forward(self, preds, labels):
-        # preds = F.interpolate(preds, labels.shape[1:], mode='bilinear', align_corners=True)
         loss = self.criterion(preds, labels)
         return loss

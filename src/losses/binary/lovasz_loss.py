@@ -1,12 +1,18 @@
 """
-https://arxiv.org/abs/1705.08790
+Lovasz-Softmax and Jaccard hinge loss in PyTorch
+Maxim Berman 2018 ESAT-PSI KU Leuven (MIT License)
 """
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 
 def lovasz_grad(gt_sorted):
+    """
+    Computes gradient of the Lovasz extension w.r.t sorted errors
+    See Alg. 1 in paper
+    """
     p = len(gt_sorted)
     gts = gt_sorted.sum()
     intersection = gts - gt_sorted.float().cumsum(0)
@@ -23,10 +29,20 @@ def hinge(pred, label):
     return errors
 
 
-def lovasz_loss(preds, labels):
-    preds = preds.contiguous().view(-1)
+def lovasz_hinge_flat(logits, labels, ignore_index):
+    """
+    Binary Lovasz hinge loss
+      logits: [P] Variable, logits at each prediction (between -\infty and +\infty)
+      labels: [P] Tensor, binary ground truth labels (0 or 1)
+      ignore_index: label to ignore
+    """
+    logits = logits.contiguous().view(-1)
     labels = labels.contiguous().view(-1)
-    errors = hinge(preds, labels)
+    if ignore_index is not None:
+        mask = labels != ignore_index
+        logits = logits[mask]
+        labels = labels[mask]
+    errors = hinge(logits, labels)
     errors_sorted, perm = torch.sort(errors, dim=0, descending=True)
     perm = perm.data
     gt_sorted = labels[perm]
@@ -36,9 +52,15 @@ def lovasz_loss(preds, labels):
 
 
 class LovaszLoss(nn.Module):
-    def __init__(self):
+    """
+    Binary Lovasz hinge loss
+      logits: [P] Variable, logits at each prediction (between -\infty and +\infty)
+      labels: [P] Tensor, binary ground truth labels (0 or 1)
+      ignore_index: label to ignore
+    """
+    def __init__(self, ignore_index=None):
         super().__init__()
-        self.loss_fn = lovasz_loss
+        self.ignore_index = ignore_index
 
-    def forward(self, preds, labels):
-        return self.loss_fn(preds, labels)
+    def forward(self, logits, labels):
+        return lovasz_hinge_flat(logits, labels, self.ignore_index)
