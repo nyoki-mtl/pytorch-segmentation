@@ -109,6 +109,11 @@ class SPPNet(nn.Module, SegmentatorTTA):
             x = self.logits(x)
             return x
 
+    def update_bn_eps(self):
+        for m in self.encoder.named_modules():
+            if isinstance(m[1], nn.BatchNorm2d):
+                m[1].eps = 1e-3
+
     def freeze_bn(self):
         for m in self.modules():
             if isinstance(m, nn.modules.batchnorm._BatchNorm):

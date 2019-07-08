@@ -100,7 +100,7 @@ class CityscapesDataset(Dataset):
                 img = img.transpose(2, 0, 1)
                 img = torch.FloatTensor(img)
                 lbl = torch.LongTensor(lbl)
-            return img, lbl
+            return img, lbl, img_path.stem
 
     def encode_mask(self, lbl):
         for c in self.void_classes:
