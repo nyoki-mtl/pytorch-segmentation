@@ -129,7 +129,7 @@ if __name__ == '__main__':
     print(len(dataset))
 
     for i, batched in enumerate(dataloader):
-        images, labels = batched
+        images, labels, _ = batched
         if i == 0:
             fig, axes = plt.subplots(8, 2, figsize=(20, 48))
             plt.tight_layout()

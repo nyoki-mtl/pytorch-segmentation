@@ -112,7 +112,7 @@ class PascalVocDataset(Dataset):
                 img = img.transpose(2, 0, 1)
                 img = torch.FloatTensor(img)
                 lbl = torch.LongTensor(lbl)
-            return img, lbl
+            return img, lbl, img_path.stem
 
 
 if __name__ == '__main__':
@@ -133,7 +133,7 @@ if __name__ == '__main__':
     print(len(dataset))
 
     for i, batched in enumerate(dataloader):
-        images, labels = batched
+        images, labels, _ = batched
         if i == 0:
             fig, axes = plt.subplots(8, 2, figsize=(20, 48))
             plt.tight_layout()

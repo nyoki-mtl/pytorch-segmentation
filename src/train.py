@@ -145,7 +145,7 @@ for i_epoch in range(start_epoch, max_epoch):
     model.train()
     with tqdm(train_loader) as _tqdm:
         for batched in _tqdm:
-            images, labels = batched
+            images, labels, _ = batched
             if fp16:
                 images = images.half()
             images, labels = images.to(device), labels.to(device)
@@ -182,14 +182,14 @@ for i_epoch in range(start_epoch, max_epoch):
     torch.save(model.state_dict(), output_dir.joinpath('model_tmp.pth'))
     torch.save(optimizer.state_dict(), output_dir.joinpath('opt_tmp.pth'))
 
-    if (i_epoch + 1) % 10 == 0:
+    if (i_epoch + 1) % 1 == 0:
         valid_losses = []
         valid_ious = []
         model.eval()
         with torch.no_grad():
             with tqdm(valid_loader) as _tqdm:
                 for batched in _tqdm:
-                    images, labels = batched
+                    images, labels, _ = batched
                     if fp16:
                         images = images.half()
                     images, labels = images.to(device), labels.to(device)
