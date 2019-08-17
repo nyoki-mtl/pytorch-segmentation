@@ -1,0 +1,6 @@
+# Config for evaluating cityscapes
+Net:
+  enc_type: 'xception65'
+  dec_type: 'aspp'
+  output_stride: 8
+  output_channels: 19

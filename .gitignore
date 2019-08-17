@@ -116,7 +116,7 @@ data/*
 checkpoints/
 
 # results
-# output/
+output/*
 
 # logs
 logs/*
@@ -128,6 +128,8 @@ ref/
 notebooks
 
 tf_model/*
+
+notebook
 
 .idea/
 

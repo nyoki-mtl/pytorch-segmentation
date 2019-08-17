@@ -19,7 +19,56 @@ $ python -m converter.convert_xception65 ../tf_model/deeplabv3_cityscapes_train/
 Then you can test the performance of trained network.
 
 ```
-$ python eval.py
+$ python eval_cityscapes.py --tta
+```
+
+mIoU of cityscapes
+```
+$ pip install cityscapesScripts
+$ export CITYSCAPES_RESULTS=../output/cityscapes_val/cityscapes_deeplab_v3_plus_tta
+$ export CITYSCAPES_DATASET=../data/cityscapes
+$ csEvalPixelLevelSemanticLabeling 
+```
+
+```
+classes          IoU      nIoU
+--------------------------------
+road          : 0.984      nan
+sidewalk      : 0.866      nan
+building      : 0.931      nan
+wall          : 0.626      nan
+fence         : 0.635      nan
+pole          : 0.668      nan
+traffic light : 0.698      nan
+traffic sign  : 0.800      nan
+vegetation    : 0.929      nan
+terrain       : 0.651      nan
+sky           : 0.954      nan
+person        : 0.832    0.645
+rider         : 0.644    0.452
+car           : 0.956    0.887
+truck         : 0.869    0.420
+bus           : 0.906    0.657
+train         : 0.834    0.555
+motorcycle    : 0.674    0.404
+bicycle       : 0.783    0.605
+--------------------------------
+Score Average : 0.802    0.578
+--------------------------------
+
+
+categories       IoU      nIoU
+--------------------------------
+flat          : 0.988      nan
+construction  : 0.937      nan
+object        : 0.729      nan
+nature        : 0.931      nan
+sky           : 0.954      nan
+human         : 0.842    0.667
+vehicle       : 0.944    0.859
+--------------------------------
+Score Average : 0.904    0.763
+--------------------------------
 ```
 
 ### MobilenetV2
@@ -28,7 +77,7 @@ $ cd tf_model
 $ wget http://download.tensorflow.org/models/deeplabv3_mnv2_cityscapes_train_2018_02_05.tar.gz
 $ tar -xvf deeplabv3_mnv2_cityscapes_train_2018_02_05.tar.gz
 $ cd ../src
-$ python -m converter.mobilenetv2 ../tf_model/deeplabv3_mnv2_cityscapes_train/model.ckpt 19 ../model/cityscapes_mobilnetv2/model.pth
+$ python -m converter.convert_mobilenetv2 ../tf_model/deeplabv3_mnv2_cityscapes_train/model.ckpt 19 ../model/cityscapes_mobilnetv2/model.pth
 ```
 
 

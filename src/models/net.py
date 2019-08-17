@@ -89,7 +89,7 @@ class SPPNet(nn.Module, SegmentatorTTA):
         assert enc_type in ['xception65', 'mobilenetv2']
         assert dec_type in ['oc_base', 'oc_asp', 'spp', 'aspp', 'maspp']
 
-        self.encoder = create_encoder(enc_type, output_stride=output_stride, pretrained=True)
+        self.encoder = create_encoder(enc_type, output_stride=output_stride, pretrained=False)
         if enc_type == 'mobilenetv2':
             self.spp = create_mspp(dec_type)
         else:
