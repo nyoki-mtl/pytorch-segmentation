@@ -1,0 +1,20 @@
+Net:
+  enc_type: 'resnet18'
+  dec_type: 'unet_scse'
+  num_filters: 8
+  pretrained: True
+Data:
+  dataset: 'pascal'
+  target_size: (512, 512)
+Train:
+  max_epoch: 60
+  batch_size: 8
+  resume: False
+  pretrained_path:
+Loss:
+  loss_type: 'CrossEntropy'
+  ignore_index: 255
+Optimizer:
+  mode: 'sgd'
+  base_lr: 0.007
+  t_max: 30

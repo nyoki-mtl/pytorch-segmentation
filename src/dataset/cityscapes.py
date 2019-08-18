@@ -42,7 +42,10 @@ class CityscapesDataset(Dataset):
                                                                 value=0, ignore_index=self.ignore_index, p=1.0),
                                          albu.RandomCrop(height=target_size[0], width=target_size[1], p=1.0)])
         else:
-            self.resizer = None
+            if target_size == (1024, 2048):
+                self.resizer = None
+            else:
+                self.resizer = albu.Resize(height=target_size[0], width=target_size[1])
 
         # Augment
         if self.split == 'train':

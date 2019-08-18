@@ -1,0 +1,20 @@
+Net:
+  enc_type: 'resnet18'
+  dec_type: 'unet_scse'
+  num_filters: 8
+  pretrained: True
+Data:
+  dataset: 'cityscapes'
+  target_size: (768, 768)
+Train:
+  max_epoch: 60
+  batch_size: 4
+  resume: False
+  pretrained_path:
+Loss:
+  loss_type: 'CrossEntropy'
+  ignore_index: 255
+Optimizer:
+  mode: 'sgd'
+  base_lr: 0.007
+  t_max: 30
