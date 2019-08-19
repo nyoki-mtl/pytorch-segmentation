@@ -41,10 +41,8 @@ pretrained_path = train_config['pretrained_path']
 
 # Network
 if 'unet' in net_config['dec_type']:
-    net_type = 'unet'
     model = EncoderDecoderNet(**net_config)
 else:
-    net_type = 'deeplab'
     model = SPPNet(**net_config)
 
 dataset = data_config['dataset']
@@ -100,8 +98,8 @@ affine_augmenter = albu.Compose([albu.HorizontalFlip(p=.5),
 #                                 albu.RandomBrightnessContrast(p=.5)])
 image_augmenter = None
 train_dataset = Dataset(affine_augmenter=affine_augmenter, image_augmenter=image_augmenter,
-                        net_type=net_type, **data_config)
-valid_dataset = Dataset(split='valid', net_type=net_type, **data_config)
+                        net_type=model.net_type, **data_config)
+valid_dataset = Dataset(split='valid', net_type=model.net_type, **data_config)
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4,
                           pin_memory=True, drop_last=True)
 valid_loader = DataLoader(valid_dataset, batch_size=1, shuffle=False, num_workers=4, pin_memory=True)
@@ -151,7 +149,7 @@ for i_epoch in range(start_epoch, max_epoch):
             images, labels = images.to(device), labels.to(device)
             optimizer.zero_grad()
             preds = model(images)
-            if net_type == 'deeplab':
+            if model.net_type == 'spp':
                 preds = F.interpolate(preds, size=labels.shape[1:], mode='bilinear', align_corners=True)
             if fp16:
                 loss = loss_fn(preds.float(), labels)
@@ -193,7 +191,7 @@ for i_epoch in range(start_epoch, max_epoch):
                     if fp16:
                         images = images.half()
                     images, labels = images.to(device), labels.to(device)
-                    preds = model.tta(images, net_type=net_type)
+                    preds = model.tta(images)
                     if fp16:
                         loss = loss_fn(preds.float(), labels)
                     else:

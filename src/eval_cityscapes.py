@@ -27,9 +27,9 @@ def predict(batched, tta_flag=False):
 
     images, labels = images.to(device), labels.to(device)
     if tta_flag:
-        preds = model.tta(images, scales=scales, net_type=net_type)
+        preds = model.tta(images, scales=scales)
     else:
-        preds = model.pred_resize(images, images.shape[2:], net_type=net_type)
+        preds = model.pred_resize(images, images.shape[2:])
     preds = preds.argmax(dim=1)
     preds_np = preds.detach().cpu().numpy().astype(np.uint8)
     return images_np, labels_np, preds_np, names
@@ -51,10 +51,8 @@ modelname = config_path.stem
 model_path = Path('../model') / modelname / 'model.pth'
 
 if 'unet' in net_config['dec_type']:
-    net_type = 'unet'
     model = EncoderDecoderNet(**net_config)
 else:
-    net_type = 'deeplab'
     model = SPPNet(**net_config)
 model.to(device)
 model.update_bn_eps()
@@ -67,7 +65,7 @@ model.eval()
 
 batch_size = 1
 scales = [0.25, 0.75, 1, 1.25]
-valid_dataset = CityscapesDataset(split='valid', net_type=net_type)
+valid_dataset = CityscapesDataset(split='valid', net_type=model.net_type)
 valid_loader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=True)
 
 if vis_flag:

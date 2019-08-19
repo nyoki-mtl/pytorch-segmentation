@@ -19,7 +19,7 @@ class PascalVocDataset(Dataset):
                  net_type='unet', ignore_index=255, debug=False):
         self.debug = debug
         self.base_dir = Path(base_dir)
-        assert net_type in ['unet', 'deeplab']
+        assert net_type in ['unet', 'spp']
         self.net_type = net_type
         self.ignore_index = ignore_index
         self.split = split
@@ -42,7 +42,7 @@ class PascalVocDataset(Dataset):
         if isinstance(target_size, str):
             target_size = eval(target_size)
         if 'train' in self.split:
-            if self.net_type == 'deeplab':
+            if self.net_type == 'spp':
                 target_size = (target_size[0] + 1, target_size[1] + 1)
             self.resizer = albu.Compose([albu.RandomScale(scale_limit=(-0.5, 0.5), p=1.0),
                                          PadIfNeededRightBottom(min_height=target_size[0], min_width=target_size[1],
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     #                                 albu.RandomBrightnessContrast(p=.5)])
     image_augmenter = None
     dataset = PascalVocDataset(affine_augmenter=affine_augmenter, image_augmenter=image_augmenter, split='valid',
-                               net_type='deeplab', ignore_index=21, target_size=(512, 512), debug=True)
+                               net_type='spp', ignore_index=21, target_size=(512, 512), debug=True)
     dataloader = DataLoader(dataset, batch_size=8, shuffle=True)
     print(len(dataset))
 

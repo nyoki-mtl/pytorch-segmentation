@@ -22,7 +22,7 @@ class CityscapesDataset(Dataset):
                  net_type='unet', ignore_index=255, debug=False):
         self.debug = debug
         self.base_dir = Path(base_dir)
-        assert net_type in ['unet', 'deeplab']
+        assert net_type in ['unet', 'spp']
         self.net_type = net_type
         self.ignore_index = ignore_index
         self.split = 'val' if split == 'valid' else split
@@ -35,7 +35,7 @@ class CityscapesDataset(Dataset):
         if isinstance(target_size, str):
             target_size = eval(target_size)
         if self.split == 'train':
-            if self.net_type == 'deeplab':
+            if self.net_type == 'spp':
                 target_size = (target_size[0] + 1, target_size[1] + 1)
             self.resizer = albu.Compose([albu.RandomScale(scale_limit=(-0.5, 0.5), p=1.0),
                                          PadIfNeededRightBottom(min_height=target_size[0], min_width=target_size[1],
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     # image_augmenter = albu.Compose([albu.GaussNoise(p=.5),
     #                                 albu.RandomBrightnessContrast(p=.5)])
     image_augmenter = None
-    dataset = CityscapesDataset(split='train', net_type='deeplab', ignore_index=19, debug=True,
+    dataset = CityscapesDataset(split='train', net_type='spp', ignore_index=19, debug=True,
                                 affine_augmenter=affine_augmenter, image_augmenter=image_augmenter)
     dataloader = DataLoader(dataset, batch_size=8, shuffle=True)
     print(len(dataset))
