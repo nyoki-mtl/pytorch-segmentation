@@ -155,6 +155,8 @@ $ python train.py ../config/pascal_unet_res18_scse.yaml
 - pytorch: 1.0.0
 - pretrainedmodels: 0.7.4
 - albumentations: 0.1.8  
+- tensorflow <= 1.15.2
+- pillow <= 6.2.2
 
 if you want to train models in fp16
 - NVIDIA/apex: 0.1
